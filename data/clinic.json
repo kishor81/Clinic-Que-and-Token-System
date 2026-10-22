@@ -1,0 +1,375 @@
+{
+  "_readme": "Fictional data. All times are in the clinic's time zone (Asia/Kathmandu, UTC+05:45).",
+  "clinic": {
+    "name": "Bodhi Family Clinic",
+    "timezone": "Asia/Kathmandu",
+    "averageConsultationMinutes": 12,
+    "doctors": [
+      {
+        "id": "D1",
+        "name": "Dr. S. Karki"
+      },
+      {
+        "id": "D2",
+        "name": "Dr. R. Joshi"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "events": [
+        {
+          "at": "2026-11-02T08:50:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Ram",
+            "age": 45,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:00:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T08:52:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Sita",
+            "age": 70,
+            "kind": "walk_in"
+          }
+        },
+        {
+          "at": "2026-11-02T08:55:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Hari",
+            "age": 30,
+            "kind": "walk_in"
+          }
+        },
+        {
+          "at": "2026-11-02T08:58:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Gita",
+            "age": 52,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:30:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T09:00:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:01:00+05:45",
+          "type": "call_next",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:05:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Bikash",
+            "age": 25,
+            "kind": "walk_in",
+            "emergency": true
+          }
+        },
+        {
+          "at": "2026-11-02T09:10:00+05:45",
+          "type": "done",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:10:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:12:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Maya",
+            "age": 40,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:00:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T09:14:00+05:45",
+          "type": "done",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:14:00+05:45",
+          "type": "call_next",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:18:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Kiran",
+            "age": 35,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:00:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T09:20:00+05:45",
+          "type": "done",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:20:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:22:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Anil",
+            "age": 68,
+            "kind": "walk_in"
+          }
+        },
+        {
+          "at": "2026-11-02T09:25:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Puja",
+            "age": 29,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:40:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T09:26:00+05:45",
+          "type": "check_in",
+          "patient": {
+            "name": "Rita",
+            "age": 33,
+            "kind": "appointment",
+            "appointmentTime": "2026-11-02T09:45:00+05:45"
+          }
+        },
+        {
+          "at": "2026-11-02T09:26:00+05:45",
+          "type": "queue"
+        },
+        {
+          "at": "2026-11-02T09:30:00+05:45",
+          "type": "done",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:30:00+05:45",
+          "type": "call_next",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:35:00+05:45",
+          "type": "no_show",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:35:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:40:00+05:45",
+          "type": "done",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:40:00+05:45",
+          "type": "call_next",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:50:00+05:45",
+          "type": "done",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:50:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T09:55:00+05:45",
+          "type": "done",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T09:55:00+05:45",
+          "type": "call_next",
+          "doctorId": "D2"
+        },
+        {
+          "at": "2026-11-02T10:00:00+05:45",
+          "type": "queue"
+        },
+        {
+          "at": "2026-11-02T10:05:00+05:45",
+          "type": "done",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T10:05:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T10:06:00+05:45",
+          "type": "no_show",
+          "doctorId": "D1"
+        },
+        {
+          "at": "2026-11-02T10:06:00+05:45",
+          "type": "call_next",
+          "doctorId": "D1"
+        }
+      ],
+      "expected": {
+        "tokens": {
+          "Ram": "A-001",
+          "Sita": "W-001",
+          "Hari": "W-002",
+          "Gita": "A-002",
+          "Bikash": "E-001",
+          "Maya": "A-003",
+          "Kiran": "W-003",
+          "Anil": "W-004",
+          "Puja": "A-004",
+          "Rita": "A-005"
+        },
+        "calls": [
+          {
+            "at": "09:00",
+            "doctorId": "D1",
+            "token": "A-001",
+            "name": "Ram"
+          },
+          {
+            "at": "09:01",
+            "doctorId": "D2",
+            "token": "W-001",
+            "name": "Sita"
+          },
+          {
+            "at": "09:10",
+            "doctorId": "D1",
+            "token": "E-001",
+            "name": "Bikash"
+          },
+          {
+            "at": "09:14",
+            "doctorId": "D2",
+            "token": "A-003",
+            "name": "Maya"
+          },
+          {
+            "at": "09:20",
+            "doctorId": "D1",
+            "token": "A-002",
+            "name": "Gita"
+          },
+          {
+            "at": "09:30",
+            "doctorId": "D2",
+            "token": "A-004",
+            "name": "Puja"
+          },
+          {
+            "at": "09:35",
+            "doctorId": "D1",
+            "token": "W-004",
+            "name": "Anil"
+          },
+          {
+            "at": "09:40",
+            "doctorId": "D2",
+            "token": "A-005",
+            "name": "Rita"
+          },
+          {
+            "at": "09:50",
+            "doctorId": "D1",
+            "token": "W-002",
+            "name": "Hari"
+          },
+          {
+            "at": "09:55",
+            "doctorId": "D2",
+            "token": "W-003",
+            "name": "Kiran"
+          },
+          {
+            "at": "10:05",
+            "doctorId": "D1",
+            "token": "A-002",
+            "name": "Gita"
+          },
+          {
+            "at": "10:06",
+            "doctorId": "D1",
+            "token": null,
+            "name": null
+          }
+        ],
+        "queueSnapshots": [
+          {
+            "at": "2026-11-02T09:26:00+05:45",
+            "queue": [
+              {
+                "position": 0,
+                "token": "W-004",
+                "name": "Anil",
+                "estimatedWaitMinutes": 0
+              },
+              {
+                "position": 1,
+                "token": "W-002",
+                "name": "Hari",
+                "estimatedWaitMinutes": 0
+              },
+              {
+                "position": 2,
+                "token": "W-003",
+                "name": "Kiran",
+                "estimatedWaitMinutes": 12
+              },
+              {
+                "position": 3,
+                "token": "A-004",
+                "name": "Puja",
+                "estimatedWaitMinutes": 12
+              },
+              {
+                "position": 4,
+                "token": "A-005",
+                "name": "Rita",
+                "estimatedWaitMinutes": 24
+              }
+            ]
+          },
+          {
+            "at": "2026-11-02T10:00:00+05:45",
+            "queue": [
+              {
+                "position": 0,
+                "token": "A-002",
+                "name": "Gita",
+                "estimatedWaitMinutes": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
