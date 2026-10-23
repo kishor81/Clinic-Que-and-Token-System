@@ -1,41 +1,107 @@
 # Bodhi Family Clinic: Queue & Token System
 
-## Run
+A simple patient queue management system for Bodhi Family Clinic. It assigns tokens, manages patient queues, helps doctors call patients, and displays queue updates on a TV screen.
+
+## 1. How to Run the Project
+
+### Start the Backend
+
+```bash
+cd backend
+npm install
+npm start
 ```
-# backend (http://localhost:3001)
-cd backend && npm install && npm start
-npm test            # replays every example in data/clinic.json + edge cases
-# frontend (http://localhost:5173, proxies /api to :3001)
-cd frontend && npm install && npm run dev
+
+Backend URL: http://localhost:3001
+
+### Start the Frontend
+
+Open a new terminal and run:
+
+```bash
+cd frontend
+npm install
+npm run dev
 ```
-Screens: `#/reception`, `#/doctor`, `#/display` (open the last one full-screen on the TV).
 
-## How the queue logic works
-All logic is in `backend/src/engine.ts` and is pure: every method takes `now` as an argument, so there is no hidden clock.
-- **Time in tests:** the API reads `X-Now: <ISO time>` (ignored when `NODE_ENV=production`), otherwise uses the real clock. The replay test calls the engine directly with each event's `at`.
-- **Check-in:** emergency → `E`; appointment checked in ≤ 15 min after its time (exactly 15 is on time) → `A`; otherwise `W`. Counters are per letter and per Kathmandu day (UTC+05:45 offset applied before taking the date).
-- **`pick()`** implements rules 3 and 4 once. It is used both by *Call next* and by *GET /api/queue*, so the queue is literally "what would happen if doctors kept pressing Call next". The queue simulation removes each picked patient, records the rule used and repeats, with the clock frozen.
-- **Fairness:** the engine remembers the rule behind the last 3 non-emergency calls (both doctors). If all 3 were "due appointment" and a walk-in waits, the walk-in is picked instead.
-- **No-show:** first time → patient becomes a walk-in (keeps token, check-in time = no-show time, age priority still applies); second → removed.
-- **Wait estimate:** `floor(position / doctors) × 12` (from `averageConsultationMinutes`).
-- **Concurrency:** Node runs each request handler synchronously, and a call is a single synchronous read-modify-write, so two simultaneous Call nexts are serialised and cannot get the same patient.
-- **Persistence:** the full state is written to `backend/state.json` (atomic rename) after every change and reloaded at start.
-- **API errors:** 400 validation, 404 unknown doctor, 409 call-next while busy / done or no-show with no patient. Extra endpoint: `GET /api/doctors`.
+Frontend URL: http://localhost:5173
 
-## Decisions I made
-- An emergency who is marked no-show goes back as a walk-in too (rule 5 doesn't exempt them); they keep their E token.
-- `appointmentTime` must include a UTC offset; the form submits it as Kathmandu time.
-- A no-show's earlier call still counts in the fairness history (it was a real call).
-- Emergency is a flag, so it works with either kind.
+### Run Tests
 
-## Frontend
-Polling every 2 s (1.5 s on display) keeps the old data while refreshing, so nothing flickers. On a failed poll, the TV shows "Server unavailable" instead of the old queue; other screens show an error banner. A newly called token pulses for 8 s.
+```bash
+cd backend
+npm test
+```
 
-## AI use
-Generated with Claude (Anthropic) from the brief. I'd review each file before the interview.
+The tests replay examples from `data/clinic.json` and check additional edge cases.
 
-## Not done / with more time
-- No HTTP-level tests (supertest) or frontend tests; only the engine is tested.
-- Polling instead of SSE/WebSockets; no authentication for doctor actions; no multi-clinic support.
-- A real DB (SQLite) instead of a whole-state JSON file; history/audit of calls.
-- Frontend styling is basic, and I haven't browser-tested it beyond a successful build.
+## 2. Available Screens
+
+- **Reception (`#/reception`):** Register and check in patients.
+- **Doctor (`#/doctor`):** Call the next patient and manage consultations.
+- **Display (`#/display`):** Show the current queue on a TV. Open this screen in full-screen mode.
+
+## 3. How the Queue Works
+
+- **Emergency patients:** Receive an `E` token and priority.
+- **Appointments:** Receive an `A` token if checked in within 15 minutes after the appointment time, including exactly 15 minutes.
+- **Walk-in patients:** Receive a `W` token if they do not qualify for an appointment token.
+- **Daily tokens:** Counters are maintained separately for each token type and reset according to Kathmandu's local date.
+- **Call Next:** The system automatically selects the next patient according to the queue rules.
+- **Fairness:** If the last three non-emergency calls were for due appointments and a walk-in is waiting, the next patient will be a walk-in.
+- **No-show:** The first missed call changes the patient to a walk-in while keeping their token. The second missed call removes them from the queue.
+- **Waiting time:** Estimated using queue position, the number of doctors, and the average consultation time of 12 minutes.
+
+Both doctors use the same queue rules.
+
+## 4. Technical Details
+
+### Backend
+
+- Queue logic is implemented in `backend/src/engine.ts`.
+- The engine is designed to be predictable and testable because every method receives the current time as an argument.
+- During development and testing, the API supports the `X-Now` header for setting a custom time. This is disabled in production.
+- Appointment times must include a UTC offset. The frontend uses Kathmandu time.
+- The `GET /api/doctors` endpoint returns doctor information.
+
+### Data Persistence
+
+- The system saves its state to `backend/state.json`.
+- State is saved after every change and loaded again when the server restarts.
+- Atomic file replacement helps prevent partially written state files.
+
+### Concurrency and Errors
+
+- Request handlers process queue updates synchronously, preventing two simultaneous calls from selecting the same patient.
+- `400` — Invalid input.
+- `404` — Doctor not found.
+- `409` — Invalid action, such as calling the next patient while busy or reporting a no-show when no patient is assigned.
+
+## 5. Frontend Features
+
+- Automatic queue refresh every 2 seconds on reception and doctor screens.
+- Automatic refresh every 1.5 seconds on the TV display.
+- Existing data stays visible while refreshing to reduce flickering.
+- The TV displays a "Server unavailable" message if a refresh fails.
+- Newly called tokens pulse for 8 seconds to make them easier to notice.
+
+## 6. Design Decisions
+
+- Emergency status is a separate flag and can apply to appointments or walk-ins.
+- Emergency patients marked as no-show follow the same no-show rules and keep their `E` token.
+- A previous call still counts toward fairness, even if the patient later becomes a no-show.
+- Both doctors share the same queue-selection logic for consistent results.
+
+
+
+## 8. Limitations and Future Improvements
+
+- Add HTTP API tests using Supertest and frontend tests.
+- Replace polling with WebSockets or Server-Sent Events.
+- Add authentication to protect doctor actions.
+- Replace the JSON state file with a database such as SQLite.
+- Add call history and audit logs.
+- Support multiple clinics.
+- Improve frontend styling and perform thorough browser testing.
+
+
